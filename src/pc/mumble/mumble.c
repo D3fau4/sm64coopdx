@@ -13,6 +13,18 @@
 
 #include <stdbool.h>
 
+#ifdef __SWITCH__
+
+// Mumble positional audio uses shared memory (mmap/shm_open) which is not
+// available on Nintendo Switch
+struct LinkedMem *lm = NULL;
+void mumble_init(void) {}
+void mumble_update(void) {}
+void mumble_update_menu(void) {}
+bool should_update_context(void) { return false; }
+
+#else
+
 #ifdef _WIN32
 	#include <windows.h>
 #else
@@ -196,3 +208,5 @@ bool should_update_context() {
 
 	return true;
 }
+
+#endif // __SWITCH__

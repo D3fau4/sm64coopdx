@@ -135,6 +135,12 @@
 
 #endif				/* } */
 
+/*
+** On Nintendo Switch, 'long' is already 64-bit
+*/
+#if defined(__SWITCH__) && !defined(LUA_INT_TYPE)
+#define LUA_INT_TYPE	LUA_INT_LONG
+#endif
 
 /*
 ** default configuration for 64-bit Lua ('long long' and 'double')

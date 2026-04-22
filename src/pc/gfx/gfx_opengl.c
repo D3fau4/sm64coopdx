@@ -25,6 +25,9 @@
 # include <SDL2/SDL.h>
 # ifdef USE_GLES
 #  include <SDL2/SDL_opengles2.h>
+#  ifdef __SWITCH__
+#   include <GLES3/gl3.h>
+#  endif
 # else
 #  include <SDL2/SDL_opengl.h>
 # endif

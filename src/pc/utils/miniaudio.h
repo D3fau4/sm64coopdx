@@ -16132,6 +16132,7 @@ static ma_result ma_thread_create__posix(ma_thread* pThread, ma_thread_priority 
             pthread_attr_setstacksize(&attr, stackSize);
         }
 
+#ifndef __SWITCH__
         if (scheduler != -1) {
             int priorityMin = sched_get_priority_min(scheduler);
             int priorityMax = sched_get_priority_max(scheduler);
@@ -16157,6 +16158,7 @@ static ma_result ma_thread_create__posix(ma_thread* pThread, ma_thread_priority 
                 pthread_attr_setschedparam(&attr, &sched);
             }
         }
+#endif // __SWITCH__
     }
 #else
     /* It's the emscripten build. We'll have a few unused parameters. */
