@@ -292,6 +292,34 @@ static void sys_fatal_impl(const char *msg) {
     exit(1);
 }
 
+#elif defined(__SWITCH__)
+
+const char *sys_user_path(void) {
+    static char path[SYS_MAX_PATH] = { 0 };
+    if ('\0' != path[0]) { return path; }
+    strncpy(path, "sdmc:/switch/sm64coopdx", SYS_MAX_PATH - 1);
+    fs_sys_mkdir(path);
+    return path;
+}
+
+const char *sys_resource_path(void) {
+    return "sdmc:/switch/sm64coopdx";
+}
+
+const char *sys_exe_path_dir(void) {
+    return "sdmc:/switch/sm64coopdx";
+}
+
+const char *sys_exe_path_file(void) {
+    return "sdmc:/switch/sm64coopdx/sm64coopdx.nro";
+}
+
+static void sys_fatal_impl(const char *msg) {
+    fprintf(stderr, "FATAL ERROR:\n%s\n", msg);
+    fflush(stderr);
+    exit(1);
+}
+
 #elif defined(HAVE_SDL2)
 
 // we can just ask SDL for most of this shit if we have it

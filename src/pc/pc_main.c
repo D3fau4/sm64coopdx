@@ -472,7 +472,29 @@ void* main_game_init(UNUSED void* dummy) {
     return NULL;
 }
 
+#ifdef __SWITCH__
+#include <switch.h>
+
+void switch_init(void) {
+    nifmInitialize(NifmServiceType_User);
+    socketInitializeDefault();
+#ifdef DEBUG
+    nxlinkStdio();
+#endif
+}
+
+void switch_exit(void) {
+    socketExit();
+    nifmExit();
+}
+
+#endif
+
 int main(int argc, char *argv[]) {
+#ifdef __SWITCH__
+    switch_init();
+#endif
+
     // handle terminal arguments
     if (!parse_cli_opts(argc, argv)) { return 0; }
 
@@ -622,6 +644,10 @@ int main(int argc, char *argv[]) {
 #endif
         djui_lua_profiler_update();
     }
+
+#ifdef __SWITCH__
+    switch_exit();
+#endif
 
     return 0;
 }
