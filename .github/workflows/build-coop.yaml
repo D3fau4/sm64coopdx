@@ -70,6 +70,34 @@ jobs:
                 name: sm64coopdx-steamos
                 path: ./build/us_pc/sm64coopdx_SteamOS.zip
 
+    build-switch:
+        if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[build]') }}
+        runs-on: ubuntu-22.04
+        container:
+            image: ghcr.io/d3fau4/nx-dev:latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install zip
+              run: |
+                apt-get update
+                apt-get install -y zip
+
+            - name: Build the game
+              run: make TARGET_SWITCH=1 -j$(nproc)
+
+            - name: Zip the game
+              run: |
+                cd ./build/us_pc
+                zip -r sm64coopdx_Switch.zip sm64coopdx.nro dynos lang mods palettes
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: sm64coopdx-switch
+                path: ./build/us_pc/sm64coopdx_Switch.zip
+
     build-windows-opengl:
         if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[build]') }}
         runs-on: windows-latest
