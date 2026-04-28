@@ -1725,13 +1725,14 @@ ifeq ($(TARGET_SWITCH),1)
 APP_TITLE   := SM64 CoopDX
 APP_AUTHOR  := sm64coopdx Team
 APP_VERSION := 1.4.1
-APP_ICON    ?= res/icon.png
+APP_ICON    ?= res/icon.jpg
 
 $(BUILD_DIR)/sm64coopdx.nacp:
 	$(DEVKITPRO)/tools/bin/nacptool --create "$(APP_TITLE)" "$(APP_AUTHOR)" "$(APP_VERSION)" $@
 
 $(BUILD_DIR)/sm64coopdx.nro: $(EXE) $(BUILD_DIR)/sm64coopdx.nacp
 	$(DEVKITPRO)/tools/bin/elf2nro $< $@ \
-		--nacp=$(BUILD_DIR)/sm64coopdx.nacp
+		--nacp=$(BUILD_DIR)/sm64coopdx.nacp \
+    --icon=$(APP_ICON)
 
 endif
