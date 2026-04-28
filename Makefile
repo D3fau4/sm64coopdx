@@ -604,6 +604,13 @@ ifeq ($(TARGET_N64),0)
 	ULTRA_C_FILES     := $(addprefix lib/src/,$(ULTRA_C_FILES))
 endif
 
+# Exclude platform-specific socket files
+ifeq ($(TARGET_SWITCH),1)
+  C_FILES := $(filter-out src/pc/network/socket/socket.c src/pc/network/socket/socket_linux.c,$(C_FILES))
+else
+  C_FILES := $(filter-out src/pc/network/socket/socket_switch.c,$(C_FILES))
+endif
+
 # Sound files
 SOUND_BANK_FILES    := $(wildcard sound/sound_banks/*.json)
 SOUND_SAMPLE_DIRS   := $(wildcard sound/samples/*)
