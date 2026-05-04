@@ -352,7 +352,7 @@ ifeq ($(TARGET_SWITCH),1)
 
   # Unsopported features on Nintendo Switch
   DISCORD_SDK := 0
-  COOPNET := 0
+  COOPNET := 1
 
   # Nintendo Switch Render options
   RENDER_API := GL
@@ -1062,6 +1062,8 @@ ifeq ($(COOPNET),1)
     endif
   else ifeq ($(TARGET_RK3588),1)
     LDFLAGS += -Llib/coopnet/linux -l:libcoopnet-arm64.a -l:libjuice.a
+  else ifeq ($(TARGET_SWITCH),1)
+    LDFLAGS += -Llib/coopnet/switch -l:libcoopnet.a -l:libjuice-static.a -lnx
   else
     LDFLAGS += -Llib/coopnet/linux -l:libcoopnet.a -l:libjuice.a
   endif
